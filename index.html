@@ -293,7 +293,7 @@ const DEFAULT_PRODUCTS = [
   { n:'غوغا', c:'عطر' },
   { n:'لیمان', c:'عطر' },
   { n:'دژم', c:'عطر' },
-  { n:'ذغال سیاه', c:'عطر' },
+  { n:'ذغال', c:'عطر' }, { n:'سیاه', c:'عطر' },
   { n:'شهد', c:'عطر' },
   { n:'ماژ', c:'عطر' },
   { n:'یار', c:'عطر' },
@@ -303,9 +303,9 @@ const DEFAULT_PRODUCTS = [
   { n:'خمار', c:'عطر' }
 ];
 let PRODUCTS;
-try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v4')) || DEFAULT_PRODUCTS.slice(); }
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v5')) || DEFAULT_PRODUCTS.slice(); }
 catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
-const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v4', JSON.stringify(PRODUCTS));
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v5', JSON.stringify(PRODUCTS));
 
 const $ = s => document.querySelector(s);
 const KEY = 'iris-notify-v1';
