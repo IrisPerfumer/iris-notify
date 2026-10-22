@@ -281,7 +281,7 @@ input,select,textarea{min-width:0;max-width:100%}
 /* ===== کاتالوگ محصولات — داخلیِ خود پلتفرم، مستقل از هر سیستم دیگری ===== */
 const DEFAULT_PRODUCTS = [
   { n:'گیسوم', c:'عطر' },
-  { n:'کجال', c:'عطر' },
+  { n:'کژال', c:'عطر' },
   { n:'فریاد', c:'عطر' },
   { n:'جیران', c:'عطر' },
   { n:'چوق', c:'عطر' },
@@ -290,12 +290,12 @@ const DEFAULT_PRODUCTS = [
   { n:'بزم', c:'عطر' },
   { n:'تاسیان', c:'عطر' },
   { n:'عبوس', c:'عطر' },
-  { n:'قوقا', c:'عطر' },
+  { n:'غوغا', c:'عطر' },
   { n:'لیمان', c:'عطر' },
   { n:'دژم', c:'عطر' },
-  { n:'زغال سیاه', c:'عطر' },
+  { n:'ذغال سیاه', c:'عطر' },
   { n:'شهد', c:'عطر' },
-  { n:'ماج', c:'عطر' },
+  { n:'ماژ', c:'عطر' },
   { n:'یار', c:'عطر' },
   { n:'پناه', c:'عطر' },
   { n:'رخ', c:'عطر' },
@@ -303,9 +303,9 @@ const DEFAULT_PRODUCTS = [
   { n:'خمار', c:'عطر' }
 ];
 let PRODUCTS;
-try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v3')) || DEFAULT_PRODUCTS.slice(); }
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v4')) || DEFAULT_PRODUCTS.slice(); }
 catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
-const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v3', JSON.stringify(PRODUCTS));
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v4', JSON.stringify(PRODUCTS));
 
 const $ = s => document.querySelector(s);
 const KEY = 'iris-notify-v1';
