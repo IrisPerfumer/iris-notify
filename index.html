@@ -300,12 +300,12 @@ const DEFAULT_PRODUCTS = [
   { n:'پناه', c:'عطر' },
   { n:'رخ', c:'عطر' },
   { n:'هناس', c:'عطر' },
-  { n:'خمار', c:'عطر' }
+  { n:'خمار', c:'عطر' }, { n:'ژین', c:'عطر' }
 ];
 let PRODUCTS;
-try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v5')) || DEFAULT_PRODUCTS.slice(); }
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v6')) || DEFAULT_PRODUCTS.slice(); }
 catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
-const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v5', JSON.stringify(PRODUCTS));
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v6', JSON.stringify(PRODUCTS));
 
 const $ = s => document.querySelector(s);
 const KEY = 'iris-notify-v1';
