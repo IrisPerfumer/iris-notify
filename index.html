@@ -272,15 +272,11 @@ main{padding:28px 0 60px}
 /* ===== کاتالوگ محصولات — داخلیِ خود پلتفرم، مستقل از هر سیستم دیگری ===== */
 const DEFAULT_PRODUCTS = [
   { n:'کژال', c:'عطر' }, { n:'ژین', c:'عطر' },
-  { n:'افشانه تن کژال', c:'افشانه تن' }, { n:'افشانه تن لیمان', c:'افشانه تن' },
-  { n:'افشانه تن گیسوم', c:'افشانه تن' }, { n:'افشانه تن جیران', c:'افشانه تن' }, { n:'افشانه تن فریاد', c:'افشانه تن' },
-  { n:'افشانه خانه آتش', c:'افشانه خانه' }, { n:'افشانه خانه خاک', c:'افشانه خانه' }, { n:'افشانه خانه خنکا', c:'افشانه خانه' },
-  { n:'دیفیوزر آتش', c:'دیفیوزر' }, { n:'دیفیوزر خاک', c:'دیفیوزر' }, { n:'دیفیوزر باد', c:'دیفیوزر' }, { n:'دیفیوزر آب', c:'دیفیوزر' },
 ];
 let PRODUCTS;
-try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog')) || DEFAULT_PRODUCTS.slice(); }
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v2')) || DEFAULT_PRODUCTS.slice(); }
 catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
-const saveCatalog = () => localStorage.setItem('iris-notify-catalog', JSON.stringify(PRODUCTS));
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v2', JSON.stringify(PRODUCTS));
 
 const $ = s => document.querySelector(s);
 const KEY = 'iris-notify-v1';
@@ -315,7 +311,7 @@ function renderPlist(q=''){
     : '<div class="pnone">محصولی با این اسم توی کاتالوگ نیست — از بخش «کاتالوگ محصولات» اضافه‌ش کن</div>';
   plist.querySelectorAll('.pitem').forEach(el => el.onclick = () => {
     pickedProduct = PRODUCTS[+el.dataset.i] || null;
-    pInput.value = el.dataset.n;
+    pInput.value = pickedProduct ? pickedProduct.n : '';
     picker.classList.remove('open');
     $('#prodErr').style.display = 'none';
   });
