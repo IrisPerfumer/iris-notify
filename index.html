@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سیستم اطلاع‌رسانی عطر آیریس</title>
+<meta name="description" content="ثبت شماره مشتری و عطر درخواستی؛ اطلاع‌رسانی خودکار پیامکی هنگام موجود شدن عطر">
+<meta name="theme-color" content="#0C3B2E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="اطلاع‌رسانی آیریس">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='15' fill='%230C3B2E'/><path d='M32 10c5 7 12 9.5 12 19a12 12 0 1 1-24 0c0-9.5 7-12 12-19Z' fill='%23E9D8A6'/></svg>">
+<style>
+@font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-Regular.woff') format('woff');font-weight:400}
+@font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-SemiBold.woff') format('woff');font-weight:600}
+@font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-Bold.woff') format('woff');font-weight:700}
+@font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-ExtraBold.woff') format('woff');font-weight:800}
+:root{
+  --green:#0C3B2E; --green2:#12503D; --green-soft:#E7F0EB; --cream:#FAF6EF; --card:#FFFFFF;
+  --ink:#1C2420; --muted:#6B766F; --line:#E4E0D2; --gold:#C9A15F; --gold-soft:#F5EDD8;
+  --red:#C0453E; --red-soft:#FBEAE8; --amber:#B97E1E; --amber-soft:#FBF0DA;
+  --blue:#256B8A; --blue-soft:#E6F1F6;
+  --shadow:0 18px 40px -22px rgba(12,59,46,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'AbarHigh',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.75;min-height:100dvh}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font-family:inherit;color:inherit}
+svg.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:linear-gradient(150deg,var(--green) 0%,var(--green2) 100%);color:#F3EEE1;padding:26px 0 30px;position:relative;overflow:hidden}
+header::after{content:'';position:absolute;inset:0;background:radial-gradient(520px 240px at 88% -30%,rgba(233,216,166,.25),transparent 60%);pointer-events:none}
+.hd{display:flex;align-items:center;gap:14px;position:relative;z-index:1;flex-wrap:wrap}
+.mark{width:52px;height:52px;border-radius:16px;background:rgba(233,216,166,.14);border:1px solid rgba(233,216,166,.4);display:flex;align-items:center;justify-content:center;flex:none}
+.mark svg{width:30px;height:30px}
+header h1{font-size:1.45rem;font-weight:800;line-height:1.4}
+header .sub{color:#BFD3C8;font-size:.88rem}
+.hd .phase{margin-inline-start:auto;background:rgba(250,246,239,.1);border:1px solid rgba(250,246,239,.25);color:#EDE6CF;font-size:.76rem;font-weight:700;padding:6px 14px;border-radius:999px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;position:relative;z-index:1}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:rgba(250,246,239,.07);border:1px solid rgba(250,246,239,.16);border-radius:18px;padding:14px 16px}
+.stat b{font-size:1.5rem;font-weight:800;display:block;line-height:1.3;color:#fff}
+.stat span{font-size:.8rem;color:#BFD3C8;font-weight:600}
+
+/* layout */
+main{padding:28px 0 60px}
+.grid{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.col1{display:flex;flex-direction:column;gap:20px;position:sticky;top:18px}
+@media(max-width:920px){.col1{position:static}}
+.form-card{padding:24px}
+.form-card h2{font-size:1.08rem;font-weight:800;display:flex;align-items:center;gap:9px}
+.form-card h2 .sic{width:36px;height:36px;border-radius:11px;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center}
+.field{margin-top:15px}
+.field label{display:block;font-size:.82rem;font-weight:700;margin-bottom:6px}
+.field label .opt{color:var(--muted);font-weight:400;font-size:.74rem}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:13px;padding:11px 13px;font-size:.94rem;background:#FCFBF6;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
+.field input.ltr{direction:ltr;text-align:left}
+.field .err{color:var(--red);font-size:.76rem;margin-top:5px;display:none;font-weight:600}
+.field.invalid input{border-color:var(--red)}
+.field.invalid .err{display:block}
+/* product picker */
+.picker{position:relative}
+.picker .plist{position:absolute;top:calc(100% + 6px);right:0;left:0;background:#fff;border:1.5px solid var(--line);border-radius:15px;box-shadow:0 26px 50px -20px rgba(12,59,46,.35);max-height:264px;overflow-y:auto;z-index:30;display:none}
+.picker.open .plist{display:block}
+.pitem{padding:10px 14px;cursor:pointer;display:flex;align-items:baseline;gap:8px;border-bottom:1px solid #F1EEE1}
+.pitem:last-child{border-bottom:0}
+.pitem:hover,.pitem.hl{background:var(--green-soft)}
+.pitem .pn{font-weight:700;font-size:.92rem}
+.pitem .pc{font-size:.74rem;color:var(--muted)}
+.pitem .pp{margin-inline-start:auto;font-size:.78rem;color:var(--green);font-weight:700;white-space:nowrap}
+.pnone{padding:14px;color:var(--muted);font-size:.86rem;text-align:center}
+.btn-add{width:100%;margin-top:20px;background:var(--green);color:#fff;font-weight:800;font-size:1rem;padding:13px;border-radius:15px;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s,background .2s}
+.btn-add:hover{background:var(--green2);transform:translateY(-1px)}
+
+/* list */
+.list-card{padding:8px 0 6px;overflow:hidden}
+.list-tools{display:flex;gap:10px;align-items:center;padding:16px 20px 6px;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:7px 15px;border-radius:999px;font-size:.83rem;font-weight:700;color:var(--muted);border:1.5px solid var(--line);background:#fff;transition:.15s}
+.tab.on{background:var(--green);border-color:var(--green);color:#fff}
+.tab .cnt{opacity:.75;font-size:.76rem}
+.searchbox{margin-inline-start:auto;display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;background:#FCFBF6;min-width:210px}
+.searchbox input{border:0;outline:none;background:none;flex:1;font-size:.88rem;min-width:0}
+.searchbox svg{width:17px;height:17px;color:var(--muted)}
+.rows{padding:8px 12px 12px}
+.row{display:flex;gap:14px;align-items:center;padding:14px 12px;border-radius:16px;border:1px solid transparent;transition:.15s}
+.row + .row{border-top:1px solid #F1EEE1}
+.row:hover{background:#FCFBF4;border-color:var(--line)}
+.row .who{flex:1;min-width:0}
+.row .r1{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.row .pname{font-weight:800;font-size:.98rem}
+.row .cust{color:var(--muted);font-size:.85rem}
+.row .mob{direction:ltr;font-weight:700;font-size:.92rem;color:var(--green);letter-spacing:.02em}
+.row .r2{display:flex;gap:12px;flex-wrap:wrap;margin-top:2px;font-size:.78rem;color:var(--muted)}
+.chip{font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:999px;white-space:nowrap}
+.chip.wait{background:var(--amber-soft);color:var(--amber)}
+.chip.stock{background:var(--blue-soft);color:var(--blue)}
+.chip.sent{background:var(--green-soft);color:var(--green)}
+.chip.cancel{background:var(--red-soft);color:var(--red)}
+.acts{display:flex;gap:6px;flex:none;flex-wrap:wrap}
+.abtn{font-size:.78rem;font-weight:700;padding:8px 13px;border-radius:11px;border:1.5px solid var(--line);background:#fff;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.abtn:hover{border-color:var(--green);color:var(--green)}
+.abtn.primary{background:var(--green);border-color:var(--green);color:#fff}
+.abtn.primary:hover{background:var(--green2)}
+.abtn.danger:hover{border-color:var(--red);color:var(--red)}
+.abtn svg{width:15px;height:15px}
+.empty{padding:52px 20px;text-align:center;color:var(--muted)}
+.empty .big{font-size:2.2rem;margin-bottom:6px}
+.list-foot{display:flex;gap:10px;align-items:center;padding:12px 20px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.list-foot .hint{font-size:.78rem;color:var(--muted)}
+.list-foot .sp{margin-inline-start:auto;display:flex;gap:8px}
+
+/* sms modal */
+#modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(12,30,24,.5)}
+#modal.on{display:flex}
+#modal .box{background:#fff;border-radius:22px;max-width:480px;width:100%;padding:26px;box-shadow:var(--shadow)}
+#modal h3{font-weight:800;font-size:1.05rem}
+#modal .sms{background:var(--green-soft);border:1px dashed #B9CFC2;border-radius:15px;padding:16px;margin-top:14px;font-size:.93rem;line-height:2;white-space:pre-line}
+#modal .mrow{display:flex;gap:8px;margin-top:16px}
+#modal .mrow .abtn{flex:1;justify-content:center;padding:11px}
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--green);color:#fff;padding:12px 24px;border-radius:999px;font-size:.88rem;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:90;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.warn{background:var(--amber)}
+/* catalog */
+.cat-card{padding:22px 24px}
+.cat-card h2{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:9px}
+.cat-card h2 .sic{width:36px;height:36px;border-radius:11px;background:var(--gold-soft);color:var(--amber);display:flex;align-items:center;justify-content:center}
+.cat-card .hint{font-size:.78rem;color:var(--muted);margin-top:4px}
+.cat-add{display:grid;grid-template-columns:1fr 118px;gap:8px;margin-top:14px}
+.cat-add input,.cat-add select{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.9rem;background:#FCFBF6;outline:none}
+.cat-add input:focus,.cat-add select:focus{border-color:var(--green)}
+.cat-add .full{grid-column:1/-1}
+.cat-add button{background:var(--green);color:#fff;font-weight:800;border-radius:12px;padding:11px;font-size:.9rem;grid-column:1/-1}
+.cat-list{margin-top:14px;max-height:230px;overflow-y:auto;display:flex;flex-direction:column}
+.cat-row{display:flex;align-items:center;gap:8px;padding:8px 4px;border-bottom:1px solid #F1EEE1;font-size:.9rem}
+.cat-row:last-child{border-bottom:0}
+.cat-row .cn{font-weight:700}
+.cat-row .cc{font-size:.74rem;color:var(--muted)}
+.cat-row .del{margin-inline-start:auto;color:var(--red);font-size:.8rem;font-weight:700;padding:4px 9px;border-radius:8px}
+.cat-row .del:hover{background:var(--red-soft)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="hd">
+      <span class="mark"><svg viewBox="0 0 64 64"><path d="M32 8c5.5 7.5 13 10.2 13 20a13 13 0 1 1-26 0c0-9.8 7.5-12.5 13-20Z" fill="#E9D8A6"/></svg></span>
+      <div>
+        <h1>سیستم اطلاع‌رسانی عطر آیریس</h1>
+        <div class="sub">مشتری شماره می‌ذاره، عطر که موجود شد پیامک می‌ره — بدون پیامک دستی</div>
+      </div>
+      <span class="phase">فاز ۱: ثبت و مدیریت درخواست‌ها</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="stTotal">۰</b><span>کل درخواست‌ها</span></div>
+      <div class="stat"><b id="stWait">۰</b><span>در انتظار موجود شدن</span></div>
+      <div class="stat"><b id="stStock">۰</b><span>موجود شده، منتظر ارسال</span></div>
+      <div class="stat"><b id="stSent">۰</b><span>اطلاع‌رسانی‌شده</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap grid">
+    <!-- form -->
+   <div class="col1">
+    <section class="card form-card">
+      <h2><span class="sic"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> ثبت درخواست جدید</h2>
+      <form id="addForm" novalidate>
+        <div class="field">
+          <label>شماره موبایل مشتری</label>
+          <input id="fMobile" class="ltr" type="tel" inputmode="numeric" placeholder="0912 345 6789" autocomplete="off">
+          <div class="err">شماره موبایل معتبر نیست — باید با ۰۹ شروع بشه و ۱۱ رقم باشه.</div>
+        </div>
+        <div class="field">
+          <label>عطر درخواستی</label>
+          <div class="picker" id="picker">
+            <input id="fProduct" type="text" placeholder="اسم عطر رو جست‌وجو کن…" autocomplete="off">
+            <div class="plist" id="plist"></div>
+          </div>
+          <div class="err" id="prodErr">یکی از عطرهای لیست رو انتخاب کن.</div>
+        </div>
+        <div class="field">
+          <label>نام مشتری <span class="opt">(اختیاری — برای متن پیامک)</span></label>
+          <input id="fName" type="text" placeholder="مثلاً خانم محمدی" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>شعبه <span class="opt">(اختیاری)</span></label>
+          <select id="fBranch">
+            <option value="">فرقی ندارد</option>
+            <option>نیایش‌مال</option>
+            <option>آرینا سنتر</option>
+            <option>ولیعصر</option>
+            <option>انبار</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>یادداشت <span class="opt">(اختیاری)</span></label>
+          <input id="fNote" type="text" placeholder="مثلاً: برای هدیه می‌خواد، عجله داره" autocomplete="off">
+        </div>
+        <button class="btn-add" type="submit">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M6 8.5a6.5 6.5 0 0 1 13 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg>
+          ثبت در لیست انتظار
+        </button>
+      </form>
+    </section>
+
+    <!-- catalog -->
+    <section class="card cat-card">
+      <h2><span class="sic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 0 4 5.5v14Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span> کاتالوگ محصولات <span style="color:var(--muted);font-size:.8rem" id="catCount"></span></h2>
+      <p class="hint">لیست عطرها اینجاست و دست خودته — هر محصولی رو خواستی اضافه یا حذف کن؛ لیست انتخابِ فرم از همین‌جا پر می‌شه.</p>
+      <div class="cat-add">
+        <input id="cName" type="text" placeholder="اسم محصول، مثلاً: عطر ژین">
+        <select id="cCat">
+          <option>عطر</option><option>افشانه تن</option><option>افشانه خانه</option><option>دیفیوزر</option><option>سایر</option>
+        </select>
+        <input id="cPrice" class="full" type="text" inputmode="numeric" placeholder="قیمت (تومان) — اختیاری">
+        <button id="cAdd" type="button">+ افزودن به کاتالوگ</button>
+      </div>
+      <div class="cat-list" id="catList"></div>
+    </section>
+   </div>
+
+    <!-- list -->
+    <section class="card list-card">
+      <div class="list-tools">
+        <div class="tabs" id="tabs">
+          <button class="tab on" data-f="all">همه <span class="cnt" id="cAll"></span></button>
+          <button class="tab" data-f="wait">در انتظار <span class="cnt" id="cWait"></span></button>
+          <button class="tab" data-f="stock">موجود شد <span class="cnt" id="cStock"></span></button>
+          <button class="tab" data-f="sent">اطلاع‌رسانی‌شده <span class="cnt" id="cSent"></span></button>
+          <button class="tab" data-f="cancel">لغوشده <span class="cnt" id="cCancel"></span></button>
+        </div>
+        <div class="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input id="q" type="text" placeholder="جست‌وجو: اسم، شماره، عطر…">
+        </div>
+      </div>
+      <div class="rows" id="rows"></div>
+      <div class="list-foot">
+        <span class="hint">بررسی خودکار موجودی و ارسال پیامک در فاز ۲ وصل می‌شه؛ فعلاً با دکمه‌ی «موجود شد» وضعیت رو دستی جلو ببر.</span>
+        <span class="sp">
+          <button class="abtn" id="btnBackup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> دانلود بکاپ</button>
+          <button class="abtn" id="btnRestore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m0 0 4 4m-4-4L8 7"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> بازیابی</button>
+          <input type="file" id="fileRestore" accept=".json" hidden>
+        </span>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- sms modal -->
+<div id="modal">
+  <div class="box">
+    <h3>متن آماده‌ی پیامک</h3>
+    <div class="sms" id="smsText"></div>
+    <div class="mrow">
+      <button class="abtn primary" id="btnCopySms">کپی متن پیامک</button>
+      <button class="abtn" id="btnCloseModal">بستن</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== کاتالوگ محصولات — داخلیِ خود پلتفرم، مستقل از هر سیستم دیگری ===== */
+const DEFAULT_PRODUCTS = [
+  { n:'کژال', c:'عطر' }, { n:'ژین', c:'عطر' },
+  { n:'افشانه تن کژال', c:'افشانه تن' }, { n:'افشانه تن لیمان', c:'افشانه تن' },
+  { n:'افشانه تن گیسوم', c:'افشانه تن' }, { n:'افشانه تن جیران', c:'افشانه تن' }, { n:'افشانه تن فریاد', c:'افشانه تن' },
+  { n:'افشانه خانه آتش', c:'افشانه خانه' }, { n:'افشانه خانه خاک', c:'افشانه خانه' }, { n:'افشانه خانه خنکا', c:'افشانه خانه' },
+  { n:'دیفیوزر آتش', c:'دیفیوزر' }, { n:'دیفیوزر خاک', c:'دیفیوزر' }, { n:'دیفیوزر باد', c:'دیفیوزر' }, { n:'دیفیوزر آب', c:'دیفیوزر' },
+];
+let PRODUCTS;
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog')) || DEFAULT_PRODUCTS.slice(); }
+catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog', JSON.stringify(PRODUCTS));
+
+const $ = s => document.querySelector(s);
+const KEY = 'iris-notify-v1';
+const faNum = n => String(n).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const toEn = s => String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+const fmtPrice = p => p ? faNum(Number(p).toLocaleString('en-US')) + ' تومان' : '';
+const jalali = ts => new Intl.DateTimeFormat('fa-IR', { day:'numeric', month:'long', year:'numeric' }).format(new Date(ts));
+
+let reqs = [];
+try { reqs = JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { reqs = []; }
+let filter = 'all', query = '', pickedProduct = null;
+
+const save = () => localStorage.setItem(KEY, JSON.stringify(reqs));
+const STATUS = {
+  wait:   { t:'در انتظار', chip:'wait' },
+  stock:  { t:'موجود شد', chip:'stock' },
+  sent:   { t:'اطلاع‌رسانی شد', chip:'sent' },
+  cancel: { t:'لغو شده', chip:'cancel' },
+};
+
+function toast(msg, warn=false){
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast on' + (warn ? ' warn' : '');
+  setTimeout(()=> t.classList.remove('on'), 2600);
+}
+
+/* ===== product picker ===== */
+const picker = $('#picker'), pInput = $('#fProduct'), plist = $('#plist');
+function renderPlist(q=''){
+  const list = PRODUCTS.filter(p => p.n.includes(q) || (p.c||'').includes(q)).slice(0, 40);
+  plist.innerHTML = list.length
+    ? list.map(p => `<div class="pitem" data-i="${PRODUCTS.indexOf(p)}"><span class="pn">${p.n}</span><span class="pc">${p.c||''}</span><span class="pp">${fmtPrice(p.p)}</span></div>`).join('')
+    : '<div class="pnone">محصولی با این اسم توی کاتالوگ نیست — از بخش «کاتالوگ محصولات» اضافه‌ش کن</div>';
+  plist.querySelectorAll('.pitem').forEach(el => el.onclick = () => {
+    pickedProduct = PRODUCTS[+el.dataset.i] || null;
+    pInput.value = el.dataset.n;
+    picker.classList.remove('open');
+    $('#prodErr').style.display = 'none';
+  });
+}
+pInput.addEventListener('focus', () => { renderPlist(pInput.value.trim()); picker.classList.add('open'); });
+pInput.addEventListener('input', () => { pickedProduct = null; renderPlist(pInput.value.trim()); picker.classList.add('open'); });
+document.addEventListener('click', e => { if (!picker.contains(e.target)) picker.classList.remove('open'); });
+
+/* ===== add request ===== */
+$('#addForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const mobRaw = toEn($('#fMobile').value).replace(/[\s-]/g, '');
+  const mobOk = /^09\d{9}$/.test(mobRaw);
+  $('#fMobile').closest('.field').classList.toggle('invalid', !mobOk);
+  if (!mobOk) { $('#fMobile').focus(); return; }
+  if (!pickedProduct) {
+    $('#prodErr').style.display = 'block'; pInput.focus(); picker.classList.add('open'); renderPlist(pInput.value.trim()); return;
+  }
+  const dup = reqs.find(r => r.mobile === mobRaw && r.product === pickedProduct.n && r.status === 'wait');
+  if (dup) { toast('این مشتری همین حالا برای «' + pickedProduct.n + '» در لیست انتظار هست', true); return; }
+  reqs.unshift({
+    id: Date.now(), mobile: mobRaw, product: pickedProduct.n, cat: pickedProduct.c || '',
+    name: $('#fName').value.trim(), branch: $('#fBranch').value, note: $('#fNote').value.trim(),
+    status: 'wait', created: Date.now(), notified: null,
+  });
+  save(); render();
+  e.target.reset(); pickedProduct = null;
+  toast('ثبت شد ✅ وقتی «' + reqs[0].product + '» موجود بشه، نوبت اطلاع‌رسانی‌شه');
+});
+
+/* ===== render ===== */
+function smsFor(r){
+  const hello = r.name ? r.name + ' عزیز' : 'مشتری گرامی آیریس';
+  return `سلام ${hello} 🌿\nعطر «${r.product}» که منتظرش بودید، موجود شد.\nبرای سفارش آنلاین و ارسال، همین حالا با ما در تماس باشید.\n— عطر آیریس`;
+}
+function render(){
+  const counts = { all: reqs.length, wait:0, stock:0, sent:0, cancel:0 };
+  reqs.forEach(r => counts[r.status]++);
+  $('#stTotal').textContent = faNum(counts.all);
+  $('#stWait').textContent = faNum(counts.wait);
+  $('#stStock').textContent = faNum(counts.stock);
+  $('#stSent').textContent = faNum(counts.sent);
+  $('#cAll').textContent = faNum(counts.all); $('#cWait').textContent = faNum(counts.wait);
+  $('#cStock').textContent = faNum(counts.stock); $('#cSent').textContent = faNum(counts.sent);
+  $('#cCancel').textContent = faNum(counts.cancel);
+  const q = query.trim();
+  const list = reqs.filter(r => (filter==='all' || r.status===filter) &&
+    (!q || r.mobile.includes(toEn(q)) || r.product.includes(q) || (r.name||'').includes(q)));
+  const box = $('#rows');
+  if (!list.length) {
+    box.innerHTML = `<div class="empty"><div class="big">🌿</div>هنوز درخواستی اینجا نیست.<br>از فرم کناری اولین درخواست رو ثبت کن.</div>`;
+    return;
+  }
+  box.innerHTML = '';
+  list.forEach(r => {
+    const d = document.createElement('div'); d.className = 'row';
+    const acts = [];
+    if (r.status === 'wait') acts.push(`<button class="abtn primary" data-a="stock">موجود شد ✓</button>`);
+    if (r.status === 'stock') acts.push(`<button class="abtn primary" data-a="sent">پیامک ارسال شد</button>`);
+    if (r.status !== 'sent' && r.status !== 'cancel') acts.push(`<button class="abtn" data-a="sms">متن پیامک</button>`);
+    if (r.status !== 'cancel' && r.status !== 'sent') acts.push(`<button class="abtn" data-a="cancel">لغو</button>`);
+    if (r.status === 'cancel') acts.push(`<button class="abtn" data-a="wait">برگردوندن به انتظار</button>`);
+    acts.push(`<button class="abtn danger" data-a="del">حذف</button>`);
+    d.innerHTML = `
+      <div class="who">
+        <div class="r1"><span class="pname">${r.product}</span><span class="chip ${STATUS[r.status].chip}">${STATUS[r.status].t}</span>
+        ${r.name ? `<span class="cust">${r.name}</span>` : ''}</div>
+        <div class="r2">
+          <span class="mob">${faNum(r.mobile)}</span>
+          <span>ثبت: ${jalali(r.created)}</span>
+          ${r.branch ? `<span>شعبه: ${r.branch}</span>` : ''}
+          ${r.cat ? `<span>${r.cat}</span>` : ''}
+          ${r.note ? `<span>📝 ${r.note}</span>` : ''}
+          ${r.notified ? `<span>اطلاع‌رسانی: ${jalali(r.notified)}</span>` : ''}
+        </div>
+      </div>
+      <div class="acts">${acts.join('')}</div>`;
+    d.querySelectorAll('[data-a]').forEach(b => b.onclick = () => act(r.id, b.dataset.a, r));
+    box.appendChild(d);
+  });
+}
+function act(id, a, r){
+  if (a === 'del') { reqs = reqs.filter(x => x.id !== id); toast('درخواست حذف شد'); }
+  else if (a === 'sms') { $('#smsText').textContent = smsFor(r); $('#modal').classList.add('on'); return; }
+  else {
+    const x = reqs.find(v => v.id === id); if (!x) return;
+    x.status = a;
+    if (a === 'sent') { x.notified = Date.now(); toast('ثبت شد — پیامک برای مشتری ارسال‌شده در نظر گرفته شد ✅'); }
+    if (a === 'stock') toast('«' + x.product + '» موجود شد — حالا نوبت ارسال پیامکه');
+  }
+  save(); render();
+}
+$('#tabs').querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  $('#tabs').querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on'); filter = t.dataset.f; render();
+});
+$('#q').addEventListener('input', e => { query = e.target.value; render(); });
+$('#btnCloseModal').onclick = () => $('#modal').classList.remove('on');
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') $('#modal').classList.remove('on'); });
+$('#btnCopySms').onclick = () => { navigator.clipboard.writeText($('#smsText').textContent).then(() => toast('متن پیامک کپی شد ✅')); };
+
+/* ===== backup ===== */
+$('#btnBackup').onclick = () => {
+  const blob = new Blob([JSON.stringify(reqs, null, 2)], { type:'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'iris-notify-backup.json'; a.click(); URL.revokeObjectURL(a.href);
+  toast('بکاپ دانلود شد ✅');
+};
+$('#btnRestore').onclick = () => $('#fileRestore').click();
+$('#fileRestore').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  f.text().then(t => {
+    try {
+      const data = JSON.parse(t);
+      if (!Array.isArray(data)) throw 0;
+      reqs = data; save(); render(); toast('بازیابی انجام شد ✅');
+    } catch(_) { toast('فایل بکاپ معتبر نیست', true); }
+  });
+});
+
+/* ===== catalog management ===== */
+function renderCatalog(){
+  $('#catCount').textContent = '— ' + faNum(PRODUCTS.length) + ' محصول';
+  const box = $('#catList'); box.innerHTML = '';
+  PRODUCTS.forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'cat-row';
+    d.innerHTML = `<span class="cn">${p.n}</span><span class="cc">${p.c||''}${p.p ? ' · ' + fmtPrice(p.p) : ''}</span><button class="del" type="button">حذف</button>`;
+    d.querySelector('.del').onclick = () => {
+      PRODUCTS.splice(i, 1); saveCatalog(); renderCatalog();
+      if (pickedProduct && !PRODUCTS.includes(pickedProduct)) pickedProduct = null;
+      toast('«' + p.n + '» از کاتالوگ حذف شد');
+    };
+    box.appendChild(d);
+  });
+}
+$('#cAdd').onclick = () => {
+  const n = $('#cName').value.trim(); if (!n) { $('#cName').focus(); return; }
+  const priceRaw = toEn($('#cPrice').value).replace(/[^\d]/g, '');
+  PRODUCTS.unshift({ n, c: $('#cCat').value, p: priceRaw ? Number(priceRaw) : undefined });
+  saveCatalog(); renderCatalog();
+  $('#cName').value = ''; $('#cPrice').value = '';
+  toast('«' + n + '» به کاتالوگ اضافه شد ✅');
+};
+
+renderCatalog();
+
+render();
+</script>
+</body>
+</html>
