@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#0C3B2E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="اطلاع‌رسانی آیریس">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='15' fill='%230C3B2E'/><path d='M32 10c5 7 12 9.5 12 19a12 12 0 1 1-24 0c0-9.5 7-12 12-19Z' fill='%23E9D8A6'/></svg>">
+<link rel="icon" type="image/png" href="logo.png">
 <style>
 @font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-Regular.woff') format('woff');font-weight:400}
 @font-face{font-family:'AbarHigh';src:url('fonts/AbarHigh-SemiBold.woff') format('woff');font-weight:600}
@@ -33,7 +33,7 @@ header{background:linear-gradient(150deg,var(--green) 0%,var(--green2) 100%);col
 header::after{content:'';position:absolute;inset:0;background:radial-gradient(520px 240px at 88% -30%,rgba(233,216,166,.25),transparent 60%);pointer-events:none}
 .hd{display:flex;align-items:center;gap:14px;position:relative;z-index:1;flex-wrap:wrap}
 .mark{width:52px;height:52px;border-radius:16px;background:rgba(233,216,166,.14);border:1px solid rgba(233,216,166,.4);display:flex;align-items:center;justify-content:center;flex:none}
-.mark svg{width:30px;height:30px}
+.mark img{width:33px;height:33px;object-fit:contain;display:block}
 header h1{font-size:1.45rem;font-weight:800;line-height:1.4}
 header .sub{color:#BFD3C8;font-size:.88rem}
 .hd .phase{margin-inline-start:auto;background:rgba(250,246,239,.1);border:1px solid rgba(250,246,239,.25);color:#EDE6CF;font-size:.76rem;font-weight:700;padding:6px 14px;border-radius:999px}
@@ -149,12 +149,11 @@ main{padding:28px 0 60px}
 <header>
   <div class="wrap">
     <div class="hd">
-      <span class="mark"><svg viewBox="0 0 64 64"><path d="M32 8c5.5 7.5 13 10.2 13 20a13 13 0 1 1-26 0c0-9.8 7.5-12.5 13-20Z" fill="#E9D8A6"/></svg></span>
+      <span class="mark"><img src="logo.png" alt="اطلاع‌رسانی آیریس"></span>
       <div>
         <h1>سیستم اطلاع‌رسانی عطر آیریس</h1>
         <div class="sub">مشتری شماره می‌ذاره، عطر که موجود شد پیامک می‌ره — بدون پیامک دستی</div>
       </div>
-      <span class="phase">فاز ۱: ثبت و مدیریت درخواست‌ها</span>
     </div>
     <div class="stats">
       <div class="stat"><b id="stTotal">۰</b><span>کل درخواست‌ها</span></div>
@@ -243,7 +242,7 @@ main{padding:28px 0 60px}
       </div>
       <div class="rows" id="rows"></div>
       <div class="list-foot">
-        <span class="hint">بررسی خودکار موجودی و ارسال پیامک در فاز ۲ وصل می‌شه؛ فعلاً با دکمه‌ی «موجود شد» وضعیت رو دستی جلو ببر.</span>
+        <span class="hint">وقتی عطری موجود شد، روی «موجود شد» بزنید تا پیامک اطلاع‌رسانی برای مشتریان منتظر آن عطر ارسال شود.</span>
         <span class="sp">
           <button class="abtn" id="btnBackup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> دانلود بکاپ</button>
           <button class="abtn" id="btnRestore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m0 0 4 4m-4-4L8 7"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> بازیابی</button>
