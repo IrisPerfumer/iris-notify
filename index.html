@@ -271,12 +271,32 @@ main{padding:28px 0 60px}
 <script>
 /* ===== کاتالوگ محصولات — داخلیِ خود پلتفرم، مستقل از هر سیستم دیگری ===== */
 const DEFAULT_PRODUCTS = [
-  { n:'کژال', c:'عطر' }, { n:'ژین', c:'عطر' },
+  { n:'گیسوم', c:'عطر' },
+  { n:'کجال', c:'عطر' },
+  { n:'فریاد', c:'عطر' },
+  { n:'جیران', c:'عطر' },
+  { n:'چوق', c:'عطر' },
+  { n:'قالی', c:'عطر' },
+  { n:'نبات', c:'عطر' },
+  { n:'بزم', c:'عطر' },
+  { n:'تاسیان', c:'عطر' },
+  { n:'عبوس', c:'عطر' },
+  { n:'قوقا', c:'عطر' },
+  { n:'لیمان', c:'عطر' },
+  { n:'دژم', c:'عطر' },
+  { n:'زغال سیاه', c:'عطر' },
+  { n:'شهد', c:'عطر' },
+  { n:'ماج', c:'عطر' },
+  { n:'یار', c:'عطر' },
+  { n:'پناه', c:'عطر' },
+  { n:'رخ', c:'عطر' },
+  { n:'هناس', c:'عطر' },
+  { n:'خمار', c:'عطر' }
 ];
 let PRODUCTS;
-try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v2')) || DEFAULT_PRODUCTS.slice(); }
+try { PRODUCTS = JSON.parse(localStorage.getItem('iris-notify-catalog-v3')) || DEFAULT_PRODUCTS.slice(); }
 catch(e) { PRODUCTS = DEFAULT_PRODUCTS.slice(); }
-const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v2', JSON.stringify(PRODUCTS));
+const saveCatalog = () => localStorage.setItem('iris-notify-catalog-v3', JSON.stringify(PRODUCTS));
 
 const $ = s => document.querySelector(s);
 const KEY = 'iris-notify-v1';
