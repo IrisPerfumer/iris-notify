@@ -142,6 +142,16 @@ main{padding:28px 0 60px}
 .cat-row .cc{font-size:.74rem;color:var(--muted)}
 .cat-row .del{margin-inline-start:auto;color:var(--red);font-size:.8rem;font-weight:700;padding:4px 9px;border-radius:8px}
 .cat-row .del:hover{background:var(--red-soft)}
+/* — mobile centering / overflow fix — */
+html,body{overflow-x:clip}
+.grid{grid-template-columns:400px minmax(0,1fr)}
+.grid>*{min-width:0}
+input,select,textarea{min-width:0;max-width:100%}
+@media(max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){
+  .wrap{padding:0 14px}
+  .form-card{padding:20px 18px}
+}
 </style>
 </head>
 <body>
